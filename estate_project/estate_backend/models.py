@@ -28,6 +28,9 @@ class Buyer(models.Model):
 class EstateType(models.Model):
     type_estate = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.type_estate
+
 
 class Owner(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
@@ -62,6 +65,8 @@ class Estate(models.Model):
     buyer = models.ManyToManyField(Buyer)
     responsible_employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     estate_type = models.ForeignKey(EstateType, on_delete=models.CASCADE)
+    cost = models.FloatField(null=True)
+
 
 
 class Deal(models.Model):

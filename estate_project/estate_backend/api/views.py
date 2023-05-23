@@ -1,4 +1,8 @@
 from rest_framework import generics
+from rest_framework.generics import  RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import ModelViewSet
+
 from ..models import Owner, Buyer, Deal, Estate, EstateType, Employee
 from .serializers import OwnerSerializer, BuyerSerializer, DealSerializer, EstateSerializer, EstateTypeSerializer, \
     EmployeeSerializer
@@ -34,3 +38,11 @@ class EstateTypeAPIView(generics.ListCreateAPIView):
 class EmployeeAPIView(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    permission_classes = [IsAdminUser]
+
+
+class EstateApiDetailView(ModelViewSet):
+    queryset = Estate.objects.all()
+    serializer_class = EstateSerializer
+    lookup_field = 'id'
+

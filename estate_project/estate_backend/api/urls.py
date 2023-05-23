@@ -1,7 +1,6 @@
-from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from .views import OwnerSerializer, BuyerSerializer, DealSerializer, EmployeeSerializer, EstateSerializer, \
-    EstateTypeSerializer, EstateAPIView
+    EstateTypeSerializer, EstateAPIView, EmployeeAPIView, EstateApiDetailView
 from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = "api"
@@ -9,6 +8,8 @@ app_name = "api"
 urlpatterns = [
     path('estate/', EstateAPIView.as_view(), name='estate_list'),
     path('token/', obtain_auth_token),
+    path('employee/', EmployeeAPIView.as_view(), name='employee_list'),
+    path('estate/<int:id>/', EstateApiDetailView.as_view({'delete': 'destroy'}), name='estate-detail'),
     # path(r'accounts', views.AccountAPIView.as_view(), name='account-list'),
     # path(r'contacts', views.ContactAPIView.as_view(), name='contact-list'),
     # path(r'activities', views.ActivityAPIView.as_view(), name='activity-list'),
