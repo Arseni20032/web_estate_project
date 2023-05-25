@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'estate_backend.apps.EstateBackendConfig',
     'rest_framework.authtoken',
-
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +135,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
+
+AUTH_USER_MODEL = 'estate_backend.CustomUser'

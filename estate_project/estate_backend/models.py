@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
 # from django.contrib.auth.models import User
 from django.conf import settings
@@ -14,11 +16,19 @@ from django.conf import settings
 #     def __str__(self):
 #         return self.full_name
 
+class CustomUser(AbstractUser):
+    date_of_birth = models.DateField(null=True)
+    timezone = models.CharField(max_length=50, default='UTC')
+
+    def __str__(self):
+        return self.username
+
 
 class Buyer(models.Model):
+    phone_number_regex = RegexValidator(regex=r'^\+375 \(\d{2}\) \d{3}-\d{2}-\d{2}$')
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=255, validators=[phone_number_regex])
     email = models.CharField(max_length=255)
 
     def __str__(self):
@@ -66,7 +76,7 @@ class Estate(models.Model):
     responsible_employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     estate_type = models.ForeignKey(EstateType, on_delete=models.CASCADE)
     cost = models.FloatField(null=True)
-
+#    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
 
 class Deal(models.Model):

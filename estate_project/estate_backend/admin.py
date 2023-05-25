@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Buyer, Owner, Estate, EstateType, Employee, Deal
+from .models import Buyer, Owner, Estate, EstateType, Employee, Deal, CustomUser
 
 # Register your models here.
 
@@ -14,4 +14,5 @@ admin.site.register(Estate)
 admin.site.register(EstateType)
 admin.site.register(Employee)
 admin.site.register(Deal)
+admin.site.register(CustomUser)
 # admin.site.register(Employee, EmployeeAdmin)
