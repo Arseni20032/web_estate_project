@@ -30,6 +30,8 @@ class Buyer(models.Model):
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255, validators=[phone_number_regex])
     email = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
+    updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи
 
     def __str__(self):
         return self.full_name
@@ -47,6 +49,8 @@ class Owner(models.Model):
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
+    updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи
 
     def __str__(self):
         return self.full_name
@@ -58,6 +62,10 @@ class Employee(models.Model):
     phone_number = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     deal_count = models.IntegerField()
+    buyers = models.ManyToManyField(Buyer, through='Deal')
+    created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
+    updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи
+
 
     def __str__(self):
         return self.full_name
@@ -76,7 +84,11 @@ class Estate(models.Model):
     responsible_employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     estate_type = models.ForeignKey(EstateType, on_delete=models.CASCADE)
     cost = models.FloatField(null=True)
-#    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
+    updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи
+
+    def __str__(self):
+        return self.name
 
 
 class Deal(models.Model):
@@ -86,3 +98,5 @@ class Deal(models.Model):
     cost = models.FloatField()
     deal_date = models.DateField(auto_now_add=True)
     deal_date_end = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
+    updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи

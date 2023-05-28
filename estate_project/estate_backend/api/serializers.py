@@ -18,15 +18,40 @@ class BuyerSerializer(serializers.ModelSerializer):
         model = Buyer
         fields = '__all__'
 
+    def delete(self, instance):
+        instance.delete()
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        logger.info("Object %s was update" % instance)
+        return instance
+
 
 class OwnerSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Owner
         fields = '__all__'
 
+    def delete(self, instance):
+        instance.delete()
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        logger.info("Object %s was update" % instance)
+        return instance
+
 
 class EmployeeSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(validators=[validate_phone_number])
+    buyers = BuyerSerializer(many=True)
+
 
     class Meta:
         model = Employee
@@ -64,6 +89,9 @@ class EstateSerializer(serializers.ModelSerializer):
 
 
 class DealSerializer(serializers.ModelSerializer):
+    estate = EstateSerializer()
+    buyer = BuyerSerializer()
+    employee = EmployeeSerializer()
     class Meta:
         model = Deal
         fields = '__all__'

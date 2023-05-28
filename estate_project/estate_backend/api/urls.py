@@ -1,30 +1,34 @@
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 
-from .views import OwnerSerializer, BuyerSerializer, DealSerializer, EmployeeSerializer, EstateSerializer, \
-    EstateTypeSerializer, EstateAPIView, EmployeeAPIView, EstateViewSet, RatesView, JokeView
-from rest_framework.authtoken.views import obtain_auth_token
+from .views import EstateAPIView, EstateViewSet, RatesView, JokeView, BuyerAPIView, \
+    OwnerViewSet, BuyerViewSet, EmployeeViewSet, DealViewSet, UserTimezoneView, EstateTypeAPIView, EstateStatsView, \
+    ProfitableEstateTypeView
 
 app_name = "api"
 
+"""маршрутизатор для CRUD"""
 router = DefaultRouter()
 router.register(r'estate', EstateViewSet)
+router.register(r'owner', OwnerViewSet)
+router.register(r'buyer', BuyerViewSet)
+router.register(r'employee', EmployeeViewSet)
+router.register(r'deal', DealViewSet)
 
 urlpatterns = [
-# path('estate/', EstateAPIView.as_view(), name='estate_list'),
+    path('estate/stats/', EstateStatsView.as_view(), name='estate_stats'),
+    path('estate/profitable-type/', ProfitableEstateTypeView.as_view(), name='profitable_estate_type'),
     path('token/', obtain_auth_token),
-    path('employee/', EmployeeAPIView.as_view(), name='employee_list'),
     path('estate/list/', EstateAPIView.as_view(), name='estate_list'),
-    path('', include(router.urls), name='estate_detail'),
+    path('', include(router.urls), name='estate'),
     path('rates/', RatesView.as_view(), name='rates'),
-    path('jokes/', JokeView.as_view(), name='jokes')
-
-
-
-    # path(r'accounts', views.AccountAPIView.as_view(), name='account-list'),
-    # path(r'contacts', views.ContactAPIView.as_view(), name='contact-list'),
-    # path(r'activities', views.ActivityAPIView.as_view(), name='activity-list'),
-    # path(r'activitystatuses', views.ActivityStatusAPIView.as_view(), name='activity-status-list'),
-    # path(r'contactsources', views.ContactSourceAPIView.as_view(), name='contact-source-list'),
-    # path(r'contactstatuses', views.ContactStatusAPIView.as_view(), name='contact-status-list')
+    path('jokes/', JokeView.as_view(), name='jokes'),
+    path('employee_buyers/', BuyerAPIView.as_view(), name='buyers'),
+    path('estate_type/', EstateTypeAPIView.as_view(), name='estate_type'),
+    path('', include(router.urls), name='owner'),
+    path('', include(router.urls), name='buyer'),
+    path('', include(router.urls), name='employee'),
+    path('', include(router.urls), name='deal'),
+    path('user/timezone/', UserTimezoneView.as_view(), name='user_timezone'),
 ]
