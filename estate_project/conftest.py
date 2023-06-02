@@ -1,50 +1,62 @@
+import datetime
+
 import pytest
 
-from estate_backend.models import CustomUser
+from estate_backend.models import Buyer, CustomUser, Owner
 from rest_framework.test import APIClient
-
-
-@pytest.fixture(scope='function')
-def admin_client(django_db_setup):
-    api_client = APIClient()
-    user = CustomUser.objects.create_user(
-        username='ars',
-        email='qwerty@mail.ru',
-        password='1234',
-        date_of_birth="2000-01-01",
-        timezone="UTC"
+@pytest.fixture
+def admin_user() -> CustomUser:
+    admin_user = CustomUser.objects.create(
+        username='admin',
+        is_superuser=True,
+        is_staff=True,
+        date_of_birth=datetime.date(2000, 1, 1)
     )
-    api_client.login(user)
-    return api_client
+    return admin_user
 
 
-@pytest.fixture(scope='function')
-def common_user_client(django_db_setup):
-    api_client = APIClient()
-    user = CustomUser.objects.create_user(
-        username='ars',
-        is_staff=False,
+@pytest.fixture
+def common_user() -> CustomUser:
+    common_user = CustomUser.objects.create(
+        username='common_user',
         is_superuser=False,
-        email='qwerty@mail.ru',
-        password='1234',
-        date_of_birth="2000-01-01",
-        timezone="UTC"
+        is_staff=False,
+        date_of_birth=datetime.date(2000, 1, 1)
     )
-    api_client.login(user)
+    return common_user
+
+
+@pytest.fixture
+def admin_user_client(admin_user) -> APIClient:
+    api_client = APIClient()
+    api_client.force_authenticate(user=admin_user)
     return api_client
-#
-# # @pytest.fixture
-# # def custom_user_fixture(db):
-# #     user = CustomUser.objects.create(username="yourusername", password="yourpassword", email="youremail@example.com", date_of_birth="2000-01-01", timezone="UTC")
-# #     return user
-#
-# # @pytest.fixture(scope='function')
-# # def user_client(django_db_setup):
-# #     client = Client()
-# #     user = User.objects.create_user(
-# #         username='test_client',
-# #         email='test_user@example.com',
-# #         password='password',
-# #         is_superuser=False
-# #     )
-# #     return client
+
+
+@pytest.fixture
+def common_user_client(common_user) -> APIClient:
+    api_client = APIClient()
+    api_client.force_authenticate(user=common_user)
+    return api_client
+
+
+@pytest.fixture
+def buyer() -> Buyer:
+    buyer = Buyer.objects.create(
+        user=admin_user.id,
+        full_name='John Byuer',
+        phone_number='+375 (12) 345-67-89',
+        email='johndoe@example.com',
+    )
+    return buyer
+
+
+@pytest.fixture
+def owner(common_user: CustomUser) -> Owner:
+    owner = Owner.objects.create(
+        user=common_user,
+        full_name='John Owner',
+        phone_number='+375 (12) 345-67-89',
+        email='johndoe@example.com',
+    )
+    return owner

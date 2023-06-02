@@ -1,8 +1,11 @@
 import logging
+from io import BytesIO
 
 import requests
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.http import HttpResponse
 from django_filters import rest_framework as filters
+from matplotlib import pyplot as plt
 from rest_framework import generics
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
@@ -126,12 +129,6 @@ class EstateTypeAPIView(generics.ListCreateAPIView):
     serializer_class = EstateTypeSerializer
 
 
-# class EmployeeAPIView(generics.ListCreateAPIView):
-#     queryset = Employee.objects.all()
-#     serializer_class = EmployeeSerializer
-#     permission_classes = [IsAdminUser]
-
-
 class EstateViewSet(ModelViewSet):
     permission_classes = [IsAdminUser, IsAdult]
     queryset = Estate.objects.all()
@@ -180,3 +177,34 @@ class UserTimezoneView(APIView):
     def get(self, request):
         timezone = request.user.timezone
         return Response({'timezone': timezone})
+
+
+class DealStatsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Используем агрегацию для получения статистики по количеству Deal по deal_date
+        deal_stats = Deal.objects.values('deal_date').annotate(deal_count=Count('id')).order_by('deal_date')
+
+        # Разделяем данные статистики на метки (labels) и значения (counts)
+        labels = [stat['deal_date'].strftime('%Y-%m-%d') for stat in deal_stats]
+        counts = [stat['deal_count'] for stat in deal_stats]
+
+        # Создаем график
+        plt.figure(figsize=(11, 7))
+        plt.plot(labels, counts)
+        plt.xlabel('Date')
+        plt.ylabel('Deal Count')
+        plt.title('Deal Statistics')
+        plt.grid(True)
+
+        image_stream = BytesIO()
+        plt.savefig(image_stream, format='png')
+        plt.close()
+
+        # Возвращаем ответ с данными изображения
+        image_stream.seek(0)
+        response = HttpResponse(content_type='image/png')
+        response.write(image_stream.getvalue())
+        return response
+
