@@ -91,11 +91,6 @@ class ProfitableEstateTypeView(APIView):
                 'total_profit': 0
             })
 
-# class DealAPIView(generics.ListCreateAPIView):
-#     permission_classes = [IsAuthenticated]
-#     queryset = Deal.objects.all()
-#     serializer_class = DealSerializer
-
 
 class EstateAPIView(generics.ListCreateAPIView):
     """Публичное представление недвижимости для незарегистрированных пользователей"""

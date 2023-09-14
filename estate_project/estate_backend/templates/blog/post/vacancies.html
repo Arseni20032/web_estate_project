@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Список вакансий - Агенство недвижимости{% endblock title %}
+
+{% block header %}Список вакансий{% endblock header %}
+
+{% block content %}
+  <h2>Доступные вакансии:</h2>
+  <ul>
+    {% for vacancy in vacancies %}
+      <li>
+        <h3>{{ vacancy.title }}</h3>
+        <p>{{ vacancy.description }}</p>
+        <p>Местоположение: {{ vacancy.location }}</p>
+        {% if vacancy.salary %}
+          <p>Зарплата: ${{ vacancy.salary }}</p>
+        {% else %}
+          <p>Зарплата: Не указана</p>
+        {% endif %}
+        <p>Дата публикации: {{ vacancy.published_date }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

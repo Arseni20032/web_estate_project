@@ -1,0 +1,49 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы</title>
+</head>
+<body>
+    <h1>Отзывы</h1>
+    <ul>
+        <!-- Вывод списка отзывов -->
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.user.username }}</strong>
+                <p>Оценка: {{ review.rating }}</p>
+                <p>Отзыв: {{ review.text }}</p>
+                <p>Дата: {{ review.date }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Проверка, авторизован ли пользователь -->
+    {% if user.is_authenticated %}
+        <!-- Форма для добавления отзыва (скрыта по умолчанию) -->
+        <div id="review-form" >
+            <h2>Добавить отзыв</h2>
+            <form method="post" action="{% url 'blog:add_review' %}">
+                {% csrf_token %}
+                <label for="rating">Оценка:</label>
+                <select id="rating" name="rating" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+                <label for="text">Отзыв:</label><br>
+                <textarea id="text" name="text" rows="4" required></textarea><br><br>
+                <input type="submit" value="Отправить">
+            </form>
+
+        </div>
+    {% else %}
+        <!-- Кнопка для перехода к окну регистрации -->
+        <a href="{% url 'blog:login' %}">Авторизуйтесь, чтобы оставить отзыв</a>
+    {% endif %}
+</body>
+{% endblock %}

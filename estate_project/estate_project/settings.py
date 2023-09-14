@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 load_dotenv()
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'. Базовый каталог проекта
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -27,9 +27,14 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
+# ip адрес
+
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 # Application definition
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 INSTALLED_APPS = [
 
@@ -43,8 +48,12 @@ INSTALLED_APPS = [
     'estate_backend.apps.EstateBackendConfig',
     'rest_framework.authtoken',
     'django_filters',
+    'crispy_forms',
+    "crispy_bootstrap5",
 ]
 
+
+# промежуточный слой между запросом и ответом
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +63,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 ROOT_URLCONF = 'estate_project.urls'
 
@@ -138,6 +150,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
+
+LOGIN_REDIRECT_URL = 'blog:about_company'
 
 AUTH_USER_MODEL = 'estate_backend.CustomUser'
 

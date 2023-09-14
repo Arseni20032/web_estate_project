@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>Часто задаваемые вопросы</h1>
+<ul>
+    {% for faq_item in faq_items %}
+        <li>
+            <strong>{{ faq_item.question }}</strong>
+            <button class="toggle-answer">Показать ответ</button>
+            <div class="answer" style="display: none;">{{ faq_item.answer }}</div>
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+    document.querySelectorAll('.toggle-answer').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var answer = this.nextElementSibling;
+            if (answer.style.display === 'none' || answer.style.display === '') {
+                answer.style.display = 'block';
+                this.textContent = 'Скрыть ответ';
+            } else {
+                answer.style.display = 'none';
+                this.textContent = 'Показать ответ';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -21,5 +21,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("estate_backend.urls"))
+    path('', include("estate_backend.urls", namespace='blog')),
 ]

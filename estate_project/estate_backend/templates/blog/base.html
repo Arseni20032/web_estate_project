@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Агенство недвижимости{% endblock title %}</title>
+</head>
+<body>
+<nav>
+    <div><a href="/">Главная</a> | <a href="/about_company">О компании</a> | <a href="/contacts">Контакты</a> |
+        <a href="{% url "blog:post_list" %}">Новости</a> | <a href="/faq">Словарь</a> | <a href="/privacy_policy">Политика конфиденциальности</a>
+        | <a href="/reviews">Отзывы</a> | <a href="/promocode">Промокоды и купоны</a></div>
+</nav>
+<h1>{% block header %}{% endblock header %}</h1>
+<div>{% block content%}{% endblock content %}</div>
+<div>MyCorp. 2022. All rights reserved.</div>
+</body>
+</html>

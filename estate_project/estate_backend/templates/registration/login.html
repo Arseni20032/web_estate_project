@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Вход{% endblock title %}
+
+{% block content %}
+  <h2>Вход</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Выводим форму с использованием всех полей -->
+    <button type="submit">Войти</button>
+  </form>
+  <p>Еще не зарегистрированы? <a href="{% url 'blog:register' %}">Зарегистрируйтесь</a></p>
+{% endblock %}

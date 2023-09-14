@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% block title %}Свежие статьи{% endblock title %}
+{% block content %}
+<h1>Свежие статьи</h1>
+{% for post in posts %}
+<div class="post">
+    <h2>
+        <a href="{% url 'blog:post_detail' post.id %}">
+            {{ post.title }}
+        </a>
+    </h2>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    <!-- Краткое содержание статьи -->
+    <p>{{ post.body|truncatewords_html:30|linebreaks }}</p>
+
+    <!-- Картинка, если есть -->
+   {% if post.photo %}
+    <img src="{{ post.photo.url }}" alt="{{ post.title }}">
+{% endif %}
+
+    <!-- Кнопка "Читать далее" -->
+    <a href="{% url 'blog:post_detail' post.id %}" class="read-more">Читать далее</a>
+</div>
+{% endfor %}
+{% endblock content %}

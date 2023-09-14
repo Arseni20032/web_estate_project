@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<h1>Контакты</h1>
+
+{% for employee in employees %}
+<div class="contact">
+    {% if post.photo %}
+    <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}">
+    {% endif %}
+    <h2>{{ employee.full_name }}</h2>
+    <p>Должность: {{ employee.responsibilities }}</p>
+    <p>Телефон: {{ employee.phone_number }}</p>
+    <p>Email: {{ employee.email }}</p>
+    <p>Количество сделок: {{ employee.deal_count }}</p>
+</div>
+{% endfor %}
+{% endblock %}
