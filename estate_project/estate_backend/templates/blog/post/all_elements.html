@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Примеры HTML элементов</title>
+</head>
+<body>
+<h1>Примеры HTML элементов</h1>
+
+<h2>Сокращения</h2>
+<abbr title="Hypertext Markup Language">HTML</abbr>
+
+<h2>Цитата</h2>
+<blockquote>
+    <p>Это цитата известного автора.</p>
+</blockquote>
+
+
+<h2>Текст в виде четверостишия с переводом строки</h2>
+<pre>
+        Я в России копил на квартиру
+        Беспросветно трудился но вот
+        Спрос поднялся в Москве и по миру
+        И недвижимость рост выдает.
+    </pre>
+
+<h2>Ссылки</h2>
+<p>Ссылка для скачивания документа: <a href="{% static '/images/sertificate.jpg' %}" download>Скачать документ</a></p>
+
+
+<h2>Контейнерные элементы</h2>
+<div>Это блочный контейнер.</div>
+<span>Это строчный контейнер.</span>
+
+
+<h2>Таблица</h2>
+<table border="1">
+  <tr>
+    <th>Имя</th>
+    <th>Возраст</th>
+    <th>Город</th>
+  </tr>
+  <tr>
+    <td rowspan="2">Иван</td>
+    <td>25</td>
+    <td>Москва</td>
+  </tr>
+  <tr>
+    <td>28</td>
+    <td>Санкт-Петербург</td>
+  </tr>
+  <tr>
+    <td>Анна</td>
+    <td>22</td>
+    <td>Киев</td>
+  </tr>
+</table>
+
+<pre>
+<code>
+function greet(name) {
+    console.log("Привет, " + name + "!");
+}
+
+// Вызов функции
+greet("Арсений");
+</code>
+</pre>
+
+<h2>Видео и аудио</h2>
+<video width="640" height="360" controls>
+    <source src="{% static '/images/kyzya.mp4' %}" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+</video>
+<audio controls>
+    <source src="{% static '/images/kyzya.mp3' %}" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+</audio>
+</body>
+</html>

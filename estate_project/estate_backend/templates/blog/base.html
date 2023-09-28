@@ -1,17 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>{% block title %}Агенство недвижимости{% endblock title %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Настройка просмотра страницы на мобильных устройсвах-->
+    <meta name="description" content="Агентство недвижимости - продажа и аренда недвижимости в вашем городе."> <!-- Краткое описание веб-страницы-->
+    <meta name="keywords" content="недвижимость, агентство, продажа, аренда"> <!-- ключевые слова-->
+    <meta name="author" content="MyCorp"> <!-- Aвтор-->
+    <meta name="robots" content="index, follow"> <!-- Разрешить индексацию и следование ссылкам -->
+    <meta name="googlebot" content="index, follow"> <!-- Разрешить индексацию Google -->
+    <title>{% block title %}Агентство недвижимости{% endblock title %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/images/icon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/styles/style.css' %}">
 </head>
 <body>
-<nav>
-    <div><a href="/">Главная</a> | <a href="/about_company">О компании</a> | <a href="/contacts">Контакты</a> |
-        <a href="{% url "blog:post_list" %}">Новости</a> | <a href="/faq">Словарь</a> | <a href="/privacy_policy">Политика конфиденциальности</a>
-        | <a href="/reviews">Отзывы</a> | <a href="/promocode">Промокоды и купоны</a></div>
-</nav>
-<h1>{% block header %}{% endblock header %}</h1>
-<div>{% block content%}{% endblock content %}</div>
-<div>MyCorp. 2022. All rights reserved.</div>
+<header>
+    <nav>
+        <!--unordered list-->
+        <ul>
+            <!-- list items-->
+            <li>
+                <a href="{% url 'blog:home' %}">Главная</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:about_company' %}">О компании</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:contacts' %}">Контакты</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:post_list' %}">Новости</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:faq_list' %}">Словарь</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:reviews' %}">Отзывы</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:promocode' %}">Промокоды и купоны</a>
+            </li>
+            <li>
+                <a href="{% url 'blog:vacancies' %}">Вакансии</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <h1>{% block header %}{% endblock header %}</h1>
+    <div>{% block content %}{% endblock content %}</div>
+</main>
+<footer>
+    <p>&copy; ООО "Глобал Люкс" 2023. Все права защищены. | <a href="/privacy_policy">Политика конфиденциальности</a>
+    </p>
+</footer>
 </body>
 </html>

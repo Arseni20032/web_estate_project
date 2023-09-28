@@ -1,6 +1,8 @@
+import os.path
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
+from estate_project.settings import BASE_DIR, MEDIA_ROOT
 from .forms import CustomUserCreationForm, ReviewForm
 from .models import Post, FAQ, Employee, PromoCode, Review, JobVacancy
 
@@ -43,6 +45,10 @@ def privacy_policy(request):
 
 def contacts(request):
     employees = Employee.objects.all()
+    print(os.path.join(BASE_DIR, 'media'))
+    print(MEDIA_ROOT)
+    print(BASE_DIR)
+    print("Текущая директория:", os.getcwd())
     return render(request, 'blog/post/contacts.html', {'employees': employees})
 
 
@@ -67,21 +73,15 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Автоматический вход после регистрации
-            return redirect('home')  # Замените 'home' на вашу домашнюю страницу
+            return redirect('blog:home')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'blog/post/registration/register.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
 
 
-class CustomLoginView(LoginView):
-    template_name = 'blog/post/registration/login.html'  # Путь к шаблону для страницы входа
-    success_url = reverse_lazy('blog:reviews')
-
-
-def review_list(request):
-    reviews = Review.objects.all()
-    return render(request, 'blog/post/review_list.html', {'reviews': reviews})
-
+# class CustomLoginView(LoginView):
+#     template_name = 'blog/post/registration/login.html'  # Путь к шаблону для страницы входа
+#     success_url = reverse_lazy('blog:reviews')
 
 @login_required
 def add_review(request):
@@ -91,7 +91,20 @@ def add_review(request):
             review = form.save(commit=False)
             review.user = request.user
             review.save()
-            return redirect('blog:review_list')
+            return redirect('blog:reviews')
     else:
         form = ReviewForm()
     return render(request, 'blog/post/add_review.html', {'form': form})
+
+
+def home(request):
+    latest_post = Post.objects.latest("publish")
+    return render(request, 'blog/post/home.html', {'latest_post': latest_post})
+
+
+def all_elem(request):
+    return render(request, 'blog/post/all_elements.html')
+
+
+
+

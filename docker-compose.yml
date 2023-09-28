@@ -6,13 +6,14 @@ services:
     #command: python /code/estate_project/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/estate_project
+      - ./media:/usr/src/app/media
     env_file:
       - .env
     ports:
       - 8000:8000
     networks:
       web_estate_backend_network:
-        ipv4_address: '10.7.0.2'
+        ipv4_address: 10.7.0.2
     depends_on:
       - db
   db:
@@ -30,10 +31,11 @@ services:
       - 5432:5432
     networks:
       web_estate_backend_network:
-        ipv4_address: '10.7.0.3'
+        ipv4_address: 10.7.0.3
 
 volumes:
   postgres_data:
+  media:
 
 networks:
   web_estate_backend_network:

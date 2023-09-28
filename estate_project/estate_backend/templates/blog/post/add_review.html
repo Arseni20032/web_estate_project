@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Добавить отзыв</h1>
 <form method="post">
+    <!-- от подделки запроса-->
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Отправить</button>

@@ -1,0 +1,54 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<!-- Рекламный баннер -->
+
+<div class="banner">
+    <img src="{% static 'images/banner.jpg' %}" alt="Рекламный баннер" height="150" width="250">
+</div>
+
+<!-- Краткая информация о последней опубликованной статье -->
+<article>
+    <div class="latest-post">
+        <h2>{{ latest_post.title }} </h2>
+        <p>{{ latest_post.body|truncatewords_html:30|linebreaks }}</p>
+        <a href="{% url 'blog:post_detail' latest_post.id %}" class="read-more">Читать далее</a>
+    </div>
+</article>
+
+
+<!-- Список компаний-партнеров -->
+<div class="partners">
+    <h2>Наши партнеры</h2>
+    <ul>
+        <li>
+            <h3 class="partner-name">Реалт недвижимость</h3>
+            <p class="about-partner">
+                <a href="https://realt.by/">
+                    <img src="{% static 'images/realt.png' %}" alt="Партнер 1">
+                </a>
+            </p>
+        </li>
+        <li>
+            <h3 class="partner-name">Куфар недвижимость</h3>
+            <p class="about-partner">
+                <a href="https://re.kufar.by/">
+                    <img src="{% static 'images/kufar.png' %}" alt="Партнер 2">
+                </a>
+            </p>
+        </li>
+        <li>
+            <h3 class="partner-name">Минск-Мир</h3>
+            <p class="about-partner">
+                <a href="https://minskworld.by/">
+                    <img src="{% static 'images/minsk-world.png' %}" alt="Партнер 3">
+                </a>
+            </p>
+        </li>
+    </ul>
+</div>
+{% endblock %}

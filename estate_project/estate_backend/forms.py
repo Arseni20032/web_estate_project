@@ -24,4 +24,4 @@ class CustomUserCreationForm(UserCreationForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['name', 'rating', 'text']
+        fields = ['rating', 'text']

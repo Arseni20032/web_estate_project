@@ -6,18 +6,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set the working directory in the container
-WORKDIR /code
+WORKDIR /usr/src/app
 
-# Install dependencies
-COPY requirements.txt /code/
+# Копируем requirements.txt внутрь контейнера
+COPY requirements.txt ./
+
+# Обновляем pip и устанавливаем зависимости
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Copy the project code to the working directory
-COPY ../../.. /code/
+# Копируем проектный код в рабочую директорию контейнера
+COPY ../../.. ./
 
-# Expose the Django development server port
+# Открываем порт для Django development server
 EXPOSE 8000
 
-# Run the Django development server
+# Запускаем Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

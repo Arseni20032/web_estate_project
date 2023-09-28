@@ -3,25 +3,30 @@
 {% block content %}
 <h1>Свежие статьи</h1>
 {% for post in posts %}
-<div class="post">
-    <h2>
-        <a href="{% url 'blog:post_detail' post.id %}">
+<div class="post" id="{{post.slug}}" itemscope itemtype="http://schema.org/Article">
+    <h2 itemprop="name">
+        <a href="{% url 'blog:post_detail' post.id %}" itemprop="url">
             {{ post.title }}
         </a>
+        <a class="headerlink" href="#{{post.slug}}" title="Permalink to this heading">¶</a>
     </h2>
-    <p class="date">
-        Published {{ post.publish }} by {{ post.author }}
-    </p>
+
     <!-- Краткое содержание статьи -->
-    <p>{{ post.body|truncatewords_html:30|linebreaks }}</p>
+    <p itemprop="description">{{ post.body|truncatewords_html:30|linebreaks }}</p>
 
     <!-- Картинка, если есть -->
-   {% if post.photo %}
-    <img src="{{ post.photo.url }}" alt="{{ post.title }}">
-{% endif %}
+    {% if post.photo %}
+    <img src="{{ post.photo.url }}" alt="{{ post.title }}" width="350" height="350" itemprop="image">
+    {% endif %}
+
+    <p class="date">
+        Published <time datetime="{{ post.publish }}" itemprop="datePublished">{{ post.publish }}</time> by <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span itemprop="name">{{ post.author }}</span>
+        </span>
+    </p>
 
     <!-- Кнопка "Читать далее" -->
-    <a href="{% url 'blog:post_detail' post.id %}" class="read-more">Читать далее</a>
+    <p><a href="{% url 'blog:post_detail' post.id %}" class="read-more">Читать далее</a></p>
 </div>
 {% endfor %}
 {% endblock content %}

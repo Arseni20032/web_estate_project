@@ -1,5 +1,4 @@
 {% extends "blog/base.html" %}
-
 {% block title %}Контакты{% endblock %}
 
 {% block content %}
@@ -7,8 +6,8 @@
 
 {% for employee in employees %}
 <div class="contact">
-    {% if post.photo %}
-    <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}">
+    {% if employee.photo %}
+    <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}" width="350" height="350">
     {% endif %}
     <h2>{{ employee.full_name }}</h2>
     <p>Должность: {{ employee.responsibilities }}</p>

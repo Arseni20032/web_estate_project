@@ -61,7 +61,7 @@ class Employee(models.Model):
                                     through='Deal')  # множество сотрудников имеет связь с множеством покупателей через модель сделок
     created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
     updated_at = models.DateTimeField(auto_now=True)  # Дата обновления записи
-    photo = models.ImageField(upload_to='employees_photo/%Y/%m/%d/', blank=True)
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True)
     responsibilities = models.CharField(max_length=255, default="Sales manager")
 
     def __str__(self):
@@ -159,7 +159,7 @@ class Review(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     rating = models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
-    text = models.TextField()
+    text = models.TextField(blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

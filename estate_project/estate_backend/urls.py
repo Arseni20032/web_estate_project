@@ -1,13 +1,13 @@
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from .views import (post_list, post_detail, about_company, faq_list, privacy_policy, contacts, promo_code, reviews,
-                    vacancies, register, CustomLoginView, review_list, add_review)
 from django.contrib.auth import views as auth_views
+from django.urls import path, include
+
+from .views import (post_list, post_detail, about_company, faq_list, privacy_policy, contacts, promo_code, reviews,
+                    vacancies, register, add_review, home, all_elem)
 
 app_name = 'blog'
 
 urlpatterns = [
+    path('', home, name='home'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', register, name='register'),
@@ -22,10 +22,8 @@ urlpatterns = [
     path('promocode/', promo_code, name='promocode'),
     path('reviews/', reviews, name='reviews'),
     path('vacancies/', vacancies, name='vacancies'),
-    path('reviews/', review_list, name='review_list'),
-    path('reviews/add/', add_review, name='add_review')
+    path('reviews/add/', add_review, name='add_review'),
+    path('all_elements', all_elem, name='all_elements'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+
